@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dev.system.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="cn.dev.system.domain.entity.SysUser">
+        <id property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="userType" column="user_type" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="CHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="CHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+        <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+        <result property="loginDate" column="login_date" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id
+        ,dept_id,user_name,
+        nick_name,user_type,email,
+        phonenumber,sex,avatar,
+        password,status,del_flag,
+        login_ip,login_date,create_by,
+        create_time,update_by,update_time,
+        remark
+    </sql>
+    <select id="queryUserList" resultType="cn.dev.system.domain.entity.SysUser">
+        select
+        u.user_id,
+        u.user_name,
+        u.avatar,
+        u.email,
+        u.nick_name,
+        u.phone_number,
+        u.status
+        from sys_user u
+        <where>
+            <if test="user.userId != null">
+                and u.user_id = #{user.userId}
+            </if>
+            <if test="user.userName != null and user.userName != ''">
+                and u.user_name like concat('%',#{user.userName},'%')
+            </if>
+            <if test="user.phoneNumber != null and user.phoneNumber != ''">
+                and u.phone_number like concat('%',#{user.phoneNumber},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getUserDetails" resultType="cn.dev.system.domain.VO.UserVO">
+        select su.user_id      as "userId",
+               su.user_name    as "userName",
+               su.nick_name    as "nickName",
+               su.phone_number as "phoneNumber",
+               su.status,
+               su.email,
+               su.create_by    as "createBy",
+               su.create_time  as "createTime",
+               su.remark,
+               sr.role_name as "roleName"
+        from sys_user su
+                 left join sys_user_role sur on su.user_id = sur.user_id
+                 join sys_role sr on sur.role_id = sr.role_id
+        where su.user_id = #{userId}
+    </select>
+</mapper>

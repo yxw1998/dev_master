@@ -1,0 +1,36 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource.druid.master",
+      "type": "javax.sql.DataSource",
+      "sourceType": "cn.dev.common.config.DruidConfig",
+      "sourceMethod": "masterDataSource(cn.dev.common.config.properties.DruidProperties)"
+    },
+    {
+      "name": "touchspring",
+      "type": "cn.dev.common.config.DevConfig",
+      "sourceType": "cn.dev.common.config.DevConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "touchspring.copyright-year",
+      "type": "java.lang.String",
+      "description": "版权年份",
+      "sourceType": "cn.dev.common.config.DevConfig"
+    },
+    {
+      "name": "touchspring.name",
+      "type": "java.lang.String",
+      "description": "项目名称",
+      "sourceType": "cn.dev.common.config.DevConfig"
+    },
+    {
+      "name": "touchspring.version",
+      "type": "java.lang.String",
+      "description": "版本",
+      "sourceType": "cn.dev.common.config.DevConfig"
+    }
+  ],
+  "hints": []
+}
